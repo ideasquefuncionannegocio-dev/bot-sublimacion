@@ -587,7 +587,10 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
             user_data['menu'] = 'producto_detalle'
             user_data['productos_cat'] = prods
             await update.message.reply_text(resp)
-        return
+            return
+        else:
+            await update.message.reply_text(f"❌ **{nombre}**, número no válido. Intenta de nuevo.")
+            return
 
     # === PRODUCTOS: detalle del producto ===
     if user_data.get('menu') == 'producto_detalle' and texto.isdigit():
@@ -612,8 +615,11 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 f"https://go.hotmart.com/V104219195N"
             )
             await update.message.reply_text(resp)
-        user_data.pop('menu', None)
-        return
+            user_data.pop('menu', None)
+            return
+        else:
+            await update.message.reply_text(f"❌ **{nombre}**, número no válido.")
+            return
 
     # === MATERIALES: selección de categoría ===
     if user_data.get('menu') == 'materiales' and texto.isdigit():
@@ -649,8 +655,11 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 resp += f"• {prod}: {RENDIMIENTO.get(prod, 0):.2f} u/día\n"
             resp += "\n🔁 *Si deseas consultar otra categoría, escribe nuevamente /rendimiento.*"
             await update.message.reply_text(resp)
-        user_data.pop('menu', None)
-        return
+            user_data.pop('menu', None)
+            return
+        else:
+            await update.message.reply_text(f"❌ **{nombre}**, número no válido.")
+            return
 
     # === PRENSADO: selección de categoría ===
     if user_data.get('menu') == 'prensado' and texto.isdigit():
@@ -664,8 +673,11 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 resp += f"• {prod}: {PRENSADO.get(prod, 0)} seg\n"
             resp += "\n🔁 *Si deseas consultar otra categoría, escribe nuevamente /prensado.*"
             await update.message.reply_text(resp)
-        user_data.pop('menu', None)
-        return
+            user_data.pop('menu', None)
+            return
+        else:
+            await update.message.reply_text(f"❌ **{nombre}**, número no válido.")
+            return
 
     # === TEMPERATURA: selección de categoría ===
     if user_data.get('menu') == 'temperatura' and texto.isdigit():
@@ -679,13 +691,18 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 resp += f"• {prod}: {TEMPERATURA.get(prod, 0)}°C\n"
             resp += "\n🔁 *Si deseas consultar otra categoría, escribe nuevamente /temperatura.*"
             await update.message.reply_text(resp)
-        user_data.pop('menu', None)
-        return
+            user_data.pop('menu', None)
+            return
+        else:
+            await update.message.reply_text(f"❌ **{nombre}**, número no válido.")
+            return
 
     # === PAÍSES: opción 1 o 2 ===
     if user_data.get('menu') == 'paises' and texto.isdigit():
         if texto == "1":
             await update.message.reply_text(f"🌎 **{nombre}**, usa el comando /pais seguido del nombre. Ejemplo: /pais colombia")
+            user_data.pop('menu', None)
+            return
         elif texto == "2":
             resp = f"🌍 **{nombre}**, elige un continente:\n\n"
             resp += "1. 🌎 América\n"
@@ -696,9 +713,10 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
             resp += "🔁 *Si deseas volver al menú anterior, escribe nuevamente /paises.*"
             user_data['menu'] = 'continente'
             await update.message.reply_text(resp)
+            return
         else:
             await update.message.reply_text(f"❌ **{nombre}**, opción no válida.")
-        return
+            return
 
     # === CONTINENTES: lista de países ===
     if user_data.get('menu') == 'continente' and texto.isdigit():
