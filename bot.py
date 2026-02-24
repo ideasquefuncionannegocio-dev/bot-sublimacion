@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # === CONFIGURACIÓN ===
-TOKEN = "8193083254:AAEEY6xMvMq-61MKVPYBEM05GFUPUe2yeM"
+TOKEN = "8193083254:AAEEY6xMwMq-6IMKVPY8EM105GfUPUe2yeM"
 logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 # ====================================================
@@ -361,3 +361,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
