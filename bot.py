@@ -431,7 +431,7 @@ async def productos(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for i, cat in enumerate(cats, 1):
         nombre_cat = cat.replace("_", " ").title()
         texto += f"{i}. {nombre_cat}\n"
-    texto += "\nResponde con el **número** de la categoría."
+    texto += "\n🔁 *Si deseas ver otra categoría, escribe nuevamente /productos.*"
     context.user_data['menu'] = 'productos'
     context.user_data['categorias'] = cats
     await update.message.reply_text(texto)
@@ -445,7 +445,7 @@ async def materiales(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto += "4. 🟤 Productos base\n"
     texto += "5. 🔧 Insumos\n"
     texto += "6. ⚙️ Otros\n\n"
-    texto += "Responde con el **número** de la categoría."
+    texto += "🔁 *Si deseas ver otra categoría, escribe nuevamente /materiales.*"
     context.user_data['menu'] = 'materiales'
     await update.message.reply_text(texto)
 
@@ -456,7 +456,7 @@ async def rendimiento(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for i, cat in enumerate(cats, 1):
         nombre_cat = cat.replace("_", " ").title()
         texto += f"{i}. {nombre_cat}\n"
-    texto += "\nResponde con el **número** de la categoría."
+    texto += "\n🔁 *Si deseas consultar otra categoría, escribe nuevamente /rendimiento.*"
     context.user_data['menu'] = 'rendimiento'
     context.user_data['categorias'] = cats
     await update.message.reply_text(texto)
@@ -468,7 +468,7 @@ async def prensado(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for i, cat in enumerate(cats, 1):
         nombre_cat = cat.replace("_", " ").title()
         texto += f"{i}. {nombre_cat}\n"
-    texto += "\nResponde con el **número** de la categoría."
+    texto += "\n🔁 *Si deseas consultar otra categoría, escribe nuevamente /prensado.*"
     context.user_data['menu'] = 'prensado'
     context.user_data['categorias'] = cats
     await update.message.reply_text(texto)
@@ -480,7 +480,7 @@ async def temperatura(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for i, cat in enumerate(cats, 1):
         nombre_cat = cat.replace("_", " ").title()
         texto += f"{i}. {nombre_cat}\n"
-    texto += "\nResponde con el **número** de la categoría."
+    texto += "\n🔁 *Si deseas consultar otra categoría, escribe nuevamente /temperatura.*"
     context.user_data['menu'] = 'temperatura'
     context.user_data['categorias'] = cats
     await update.message.reply_text(texto)
@@ -544,7 +544,7 @@ async def paises(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = f"🌎 **{nombre}**, estas son las opciones para consultar países:\n\n"
     texto += "1. 🌎 Consultar país específico (usar /pais [nombre])\n"
     texto += "2. 🌍 Ver lista por continente\n\n"
-    texto += "Responde con el **número** de la opción."
+    texto += "🔁 *Si deseas realizar otra consulta, escribe nuevamente /paises.*"
     context.user_data['menu'] = 'paises'
     await update.message.reply_text(texto)
 
@@ -583,7 +583,7 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
             resp = f"📦 **{nombre}**, estos son los productos de **{cat.replace('_', ' ').title()}:**\n\n"
             for i, prod in enumerate(prods, 1):
                 resp += f"{i}. {prod}\n"
-            resp += "\nResponde con el **número** del producto."
+            resp += "\n🔁 *Si deseas consultar otro producto, escribe nuevamente /productos.*"
             user_data['menu'] = 'producto_detalle'
             user_data['productos_cat'] = prods
             await update.message.reply_text(resp)
@@ -632,6 +632,7 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
             resp = f"⚙️ **{nombre}**, estos son otros materiales:\n\n" + "\n".join([f"• {k}: ${v}" for k, v in MATERIALES_OTROS.items()])
         else:
             resp = f"❌ **{nombre}**, opción no válida."
+        resp += "\n\n🔁 *Si deseas ver otra categoría, escribe nuevamente /materiales.*"
         await update.message.reply_text(resp)
         user_data.pop('menu', None)
         return
@@ -646,6 +647,7 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
             resp = f"📊 **{nombre}**, rendimiento de **{cat.replace('_', ' ').title()}:**\n\n"
             for prod in prods:
                 resp += f"• {prod}: {RENDIMIENTO.get(prod, 0):.2f} u/día\n"
+            resp += "\n🔁 *Si deseas consultar otra categoría, escribe nuevamente /rendimiento.*"
             await update.message.reply_text(resp)
         user_data.pop('menu', None)
         return
@@ -660,6 +662,7 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
             resp = f"⏱️ **{nombre}**, tiempo de prensado de **{cat.replace('_', ' ').title()}:**\n\n"
             for prod in prods:
                 resp += f"• {prod}: {PRENSADO.get(prod, 0)} seg\n"
+            resp += "\n🔁 *Si deseas consultar otra categoría, escribe nuevamente /prensado.*"
             await update.message.reply_text(resp)
         user_data.pop('menu', None)
         return
@@ -674,6 +677,7 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
             resp = f"🌡️ **{nombre}**, temperatura de **{cat.replace('_', ' ').title()}:**\n\n"
             for prod in prods:
                 resp += f"• {prod}: {TEMPERATURA.get(prod, 0)}°C\n"
+            resp += "\n🔁 *Si deseas consultar otra categoría, escribe nuevamente /temperatura.*"
             await update.message.reply_text(resp)
         user_data.pop('menu', None)
         return
@@ -689,8 +693,9 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
             resp += "3. 🌏 Asia\n"
             resp += "4. 🌍 África\n"
             resp += "5. 🌏 Oceanía\n\n"
-            resp += "Responde con el **número** del continente."
+            resp += "🔁 *Si deseas volver al menú anterior, escribe nuevamente /paises.*"
             user_data['menu'] = 'continente'
+            await update.message.reply_text(resp)
         else:
             await update.message.reply_text(f"❌ **{nombre}**, opción no válida.")
         return
@@ -719,6 +724,7 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         resp = f"🌍 **{nombre}**, estos son los países de **{nombre_cont}:**\n\n"
         resp += "\n".join([f"• {p}" for p in paises])
+        resp += "\n\n🔁 *Si deseas consultar otro continente, escribe nuevamente /paises.*"
         await update.message.reply_text(resp)
         user_data.pop('menu', None)
         return
