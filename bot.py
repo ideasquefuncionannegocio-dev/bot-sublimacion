@@ -729,7 +729,10 @@ async def manejar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_data.pop('menu', None)
         return
 
-    # === Si no es ningún comando ni menú, no responde ===
+    # === Si no es ningún comando ni menú, recordatorio ===
+    await update.message.reply_text(
+        f"Recuerda poner /ayuda para más información u otro dato."
+    )
     return
 
 # ====================================================
